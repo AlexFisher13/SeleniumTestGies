@@ -1,8 +1,9 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import java.util.concurrent.TimeUnit;dj,
+import java.util.concurrent.TimeUnit;
 import static com.thoughtworks.selenium.SeleneseTestNgHelper.assertEquals;
 
 /**
@@ -10,11 +11,18 @@ import static com.thoughtworks.selenium.SeleneseTestNgHelper.assertEquals;
  */
 public class SimpleTest {
 
+        WebDriver driver;
+        String baseUrl;
+
+    @BeforeClass
+    public void before() {
+        System.setProperty("webdriver.chrome.driver", "/home/user/chromeDriver/chromedriver");
+        driver = new ChromeDriver();
+        baseUrl = "http://demo.gies.ivt.lan";
+    }
+
     @Test
     public void loginToGies() {
-        //System.setProperty("webdriver.chrome.driver", "/home/user/chromeDriver/chromedriver");
-        WebDriver driver = new ChromeDriver();
-        String baseUrl = "http://demo.gies.ivt.lan";
         driver.manage().window().maximize();
         driver.get(baseUrl + "/login");
         driver.findElement(By.cssSelector("[name=username]")).clear();
@@ -25,5 +33,12 @@ public class SimpleTest {
         System.out.println("Page title is: " + driver.getTitle());
         assertEquals("Gloria", driver.getTitle());
     }
+
+    @Test
+    public void firstPage() {
+        //loginToGies();
+        assertEquals("Выберите объект энергосервиса", driver.findElement(By.id("tbtext-1448")));
+    }
+
 
 }
